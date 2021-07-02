@@ -1,0 +1,24 @@
+name: Test package
+
+on:
+  push:
+    branches: [ main ]
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ macos-latest, windows-latest ]
+        go: [ '1.14', '1.15', '1.16' ]
+    steps:
+      - name: 設定環境
+        uses: actions/checkout@v2
+
+      - name: 使用 go
+        uses: actions/setup-go@v1
+        with:
+          go-version: ${{ matrix.go }}
+
+      - name: 測試
+        run: go test ./...
